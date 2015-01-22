@@ -1,50 +1,51 @@
-# /usr/bin/env ruby
+#!/usr/bin/env ruby
 require 'pp'
 require 'enumerator'
 
 
-def encipher
-  interim = transpose(ARGV[1], ARGV[3].split.join.downcase)
-  final = transpose(ARGV[2], interim)
+def encipher(a, b, plaintext)
+  interim = transpose(a, plaintext.upcase)
+  final = transpose(b, interim)
+  result = ''
   final.split('').each_slice(5) do |slice|
-    print slice.join.upcase
-    print ' '
+    result += slice.join
+    result += ' '
   end
-  puts
+  result
 end
 
-def decipher
-  interim = detranspose(ARGV[2], ARGV[3].split.join.downcase)
-  final = detranspose(ARGV[1], interim)
-  puts final
+def decipher(a, b, ciphertext)
+  interim = detranspose(b, ciphertext.upcase)
+  final = detranspose(a, interim)
+  final
 end
+
 def detranspose(key, ciphertext)
   ciphertext = ciphertext.split.join.split('')
-  second_key = key
-  column_length = ciphertext.length/second_key.length
-  extra_count = ciphertext.length % second_key.length
+  column_length = ciphertext.length/key.length
+  extra_count = ciphertext.length % key.length
   
-  second_key_a = []
-  second_key.each_char.with_index do |c,i|
+  key_a = []
+  key.each_char.with_index do |c,i|
     length = column_length
     length = length + 1 if i < extra_count
-    second_key_a.push [i, c, length]
+    key_a.push [i, c, length]
   end
 
   sorter = ->(a,b) {
     a[1] <=> b[1]
   }
-  second_key_a = second_key_a.sort &sorter
+  key_a = key_a.sort &sorter
 
-  ciphertext_a = Array.new(second_key.size) {Array.new}
+  ciphertext_a = Array.new(key.size) {Array.new}
 
   ciphertext_a.size.times do |i|
-    ciphertext_a[second_key_a[i][0]] = ciphertext.shift(second_key_a[i][2])
+    ciphertext_a[key_a[i][0]] = ciphertext.shift(key_a[i][2])
   end
   result = ''
 
   (column_length+1).times do |j|
-    second_key.size.to_i.times do |i|
+    key.size.to_i.times do |i|
       result = result + (ciphertext_a[i][j] || '')
     end
   end
@@ -52,9 +53,9 @@ def detranspose(key, ciphertext)
 end
 
 def transpose(key, plaintext)
+  plaintext = plaintext.split.join
   key_a = []
   key.each_char.with_index do |c, i|
-
     key_a.push [i, c]
   end
   sorter = ->(a,b) {
@@ -72,14 +73,13 @@ def transpose(key, plaintext)
 
   result = ''
   key_a.size.to_i.times do |i|
-
     result = result + ciphertext_a[key_a[i][0]].join
   end
   result
 end
 
 if ARGV[0] == 'encode'
-  encipher
+  puts encipher(ARGV[1], ARGV[2], ARGV[3])
 else
-  decipher
+  puts decipher(ARGV[1], ARGV[2], ARGV[3])
 end
