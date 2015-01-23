@@ -32,10 +32,10 @@ def detranspose(key, ciphertext)
     key_a.push [i, c, length]
   end
 
-  sorter = ->(a,b) {
-    a[1] <=> b[1]
-  }
-  key_a = key_a.sort &sorter
+  i = 0
+  key_a.sort_by do |x| 
+    [x, i += 1]
+  end
 
   ciphertext_a = Array.new(key.size) {Array.new}
 
@@ -58,10 +58,11 @@ def transpose(key, plaintext)
   key.each_char.with_index do |c, i|
     key_a.push [i, c]
   end
-  sorter = ->(a,b) {
-    a[1] <=> b[1]
-  }
-  key_a = key_a.sort &sorter
+
+  i = 0
+  key_a.sort_by do |x| 
+    [x, i += 1]
+  end
 
   ciphertext_a = Array.new(key_a.size) { Array.new }
 
