@@ -9,25 +9,25 @@ Double transposition cipher
 #### Encoding  
 
 ```bash 
-λ ./double_transposition.rb encode [first_key] [second_key] '[plaintext]'
+λ ./double_transpose encode [first_key] [second_key] '[plaintext]'
 ```
 
 ##### Example  
 
 ```bash
-λ ./double_transposition.rb encode swag master 'whats your favorite color'
-OVORO WHAUR FTSYA TECIL OR 
+λ ./double_transpose encode swag master 'whats your favorite color'
+WHAUS YOVRF ATORI LECOO RT
 ```
 
 #### Decoding
 
 ```bash
-λ ./double_transposition.rb decode first_key second_key 'cipher_text'
+λ ./double_transpose decode first_key second_key 'cipher_text'
 ```
 
 ##### Example
 
 ```bash 
-λ ./double_transposition.rb decode swag master 'OVORO WHAUR FTSYA TECIL OR'
+λ ./double_transpose decode swag master 'WHAUS YOVRF ATORI LECOO RT'
 WHATSYOURFAVORITECOLOR
 ```
