@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../lib", __FILE__)
+
+require 'double_transposition'
+
+if ARGV[0] == 'encode'
+  puts encipher(ARGV[1], ARGV[2], ARGV[3])
+else
+  puts decipher(ARGV[1], ARGV[2], ARGV[3])
+end

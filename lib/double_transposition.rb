@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 require 'pp'
 require 'enumerator'
 
@@ -79,8 +78,3 @@ def transpose(key, plaintext)
   result
 end
 
-if ARGV[0] == 'encode'
-  puts encipher(ARGV[1], ARGV[2], ARGV[3])
-else
-  puts decipher(ARGV[1], ARGV[2], ARGV[3])
-end
